@@ -10,7 +10,7 @@ namespace Platformer
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            using (Platformer game = new Platformer())
             {
                 game.Run();
             }
