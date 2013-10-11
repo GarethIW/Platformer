@@ -19,6 +19,8 @@ namespace Platformer
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Map gameMap;
+
         public Platformer()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -34,7 +36,9 @@ namespace Platformer
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.ApplyChanges();
             base.Initialize();
         }
 
@@ -48,6 +52,7 @@ namespace Platformer
             spriteBatch = new SpriteBatch(GraphicsDevice);
             
             // TODO: use this.Content to load your game content here
+            gameMap = Map.Load("map.txt", Content);
         }
 
         /// <summary>
@@ -84,6 +89,7 @@ namespace Platformer
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            gameMap.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
