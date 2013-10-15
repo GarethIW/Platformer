@@ -19,6 +19,8 @@ namespace Platformer
 
         public int[,] Tiles = new int[MAP_WIDTH, MAP_HEIGHT];
 
+        public Vector2 PlayerSpawn;
+
         Texture2D tilesTex;
 
         public Map(string mapText, Texture2D tex)
@@ -32,6 +34,15 @@ namespace Platformer
                 for (int x = 0; x < MAP_WIDTH; x++)
                 {
                     Tiles[x, y] = Convert.ToInt16(lines[y][x].ToString());
+
+                    switch (Tiles[x, y])
+                    {
+                        case 9:
+                            PlayerSpawn = (new Vector2(x, y) * new Vector2(TILE_WIDTH, TILE_HEIGHT)) + new Vector2(Hero.FRAME_WIDTH/2, Hero.FRAME_HEIGHT);
+                            Tiles[x, y] = 0;
+                            break;
+
+                    }
                 }
             }
         }

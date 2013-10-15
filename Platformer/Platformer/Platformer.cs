@@ -20,6 +20,7 @@ namespace Platformer
         SpriteBatch spriteBatch;
 
         Map gameMap;
+        Hero gameHero;
 
         public Platformer()
         {
@@ -53,6 +54,9 @@ namespace Platformer
             
             // TODO: use this.Content to load your game content here
             gameMap = Map.Load("map.txt", Content);
+
+            gameHero = new Hero(gameMap.PlayerSpawn);
+            gameHero.LoadContent(Content);
         }
 
         /// <summary>
@@ -90,6 +94,8 @@ namespace Platformer
 
             // TODO: Add your drawing code here
             gameMap.Draw(spriteBatch);
+
+            gameHero.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
