@@ -75,11 +75,17 @@ namespace Platformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            KeyboardState ks = Keyboard.GetState();
+
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (ks.IsKeyDown(Keys.Escape))
                 this.Exit();
 
-            // TODO: Add your update logic here
+            if (ks.IsKeyDown(Keys.Left)) gameHero.MoveHorizontal(-1f);
+            if (ks.IsKeyDown(Keys.Right)) gameHero.MoveHorizontal(1f);
+            if (ks.IsKeyDown(Keys.Up)) gameHero.Jump();
+
+            gameHero.Update(gameTime, gameMap);
 
             base.Update(gameTime);
         }

@@ -17,6 +17,8 @@ namespace Platformer
         public const int TILE_WIDTH = 64;
         public const int TILE_HEIGHT = 64;
 
+        public const float GRAVITY = 0.2f;
+
         public int[,] Tiles = new int[MAP_WIDTH, MAP_HEIGHT];
 
         public Vector2 PlayerSpawn;
