@@ -81,8 +81,8 @@ namespace Platformer
             if (ks.IsKeyDown(Keys.Escape))
                 this.Exit();
 
-            if (ks.IsKeyDown(Keys.Left)) gameHero.MoveHorizontal(-1f);
-            if (ks.IsKeyDown(Keys.Right)) gameHero.MoveHorizontal(1f);
+            if (ks.IsKeyDown(Keys.Left)) gameHero.MoveHorizontal(-1);
+            if (ks.IsKeyDown(Keys.Right)) gameHero.MoveHorizontal(1);
             if (ks.IsKeyDown(Keys.Up)) gameHero.Jump();
 
             gameHero.Update(gameTime, gameMap);
