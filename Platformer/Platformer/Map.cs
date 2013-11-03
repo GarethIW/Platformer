@@ -65,6 +65,17 @@ namespace Platformer
             sb.End();
         }
 
+        public int GetTileAt(Vector2 pos)
+        {
+            int tx = (int)pos.X / TILE_WIDTH;
+            int ty = (int)pos.Y / TILE_WIDTH;
+
+            if (tx >= 0 && tx < MAP_WIDTH && ty >= 0 && ty < MAP_HEIGHT)
+                return Tiles[tx, ty];
+            else 
+                return 0;
+        }
+
         public static Map Load(string fn, ContentManager content)
         {
             Map newMap;
