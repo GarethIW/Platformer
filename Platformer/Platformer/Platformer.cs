@@ -22,6 +22,8 @@ namespace Platformer
         Map gameMap;
         Hero gameHero;
 
+        EnemyManager enemyManager;
+
         public Platformer()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -51,12 +53,15 @@ namespace Platformer
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
-            // TODO: use this.Content to load your game content here
+
+            enemyManager = new EnemyManager();
+            enemyManager.LoadContent(Content);
+
             gameMap = Map.Load("map.txt", Content);
 
             gameHero = new Hero(gameMap.PlayerSpawn);
             gameHero.LoadContent(Content);
+
         }
 
         /// <summary>
@@ -86,6 +91,7 @@ namespace Platformer
             if (ks.IsKeyDown(Keys.Up)) gameHero.Jump();
 
             gameHero.Update(gameTime, gameMap);
+            enemyManager.Update(gameTime, gameMap);
 
             base.Update(gameTime);
         }
@@ -102,6 +108,8 @@ namespace Platformer
             gameMap.Draw(spriteBatch);
 
             gameHero.Draw(spriteBatch);
+
+            enemyManager.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }

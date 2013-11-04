@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Platformer
 {
-    class Map
+    public class Map
     {
         public const int MAP_WIDTH = 20;
         public const int MAP_HEIGHT = 11;
@@ -39,6 +39,10 @@ namespace Platformer
 
                     switch (Tiles[x, y])
                     {
+                        case 8:
+                            EnemyManager.Instance.Spawn(x, y);
+                            Tiles[x, y] = 0;
+                            break;
                         case 9:
                             PlayerSpawn = (new Vector2(x, y) * new Vector2(TILE_WIDTH, TILE_HEIGHT)) + new Vector2(Hero.FRAME_WIDTH/2, Hero.FRAME_HEIGHT);
                             Tiles[x, y] = 0;
