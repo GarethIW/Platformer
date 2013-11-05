@@ -16,6 +16,8 @@ namespace Platformer
     /// </summary>
     public class Platformer : Microsoft.Xna.Framework.Game
     {
+        public static Random Rand = new Random();
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 

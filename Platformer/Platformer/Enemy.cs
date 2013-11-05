@@ -29,7 +29,7 @@ namespace Platformer
         int currentFrame = 0;
         double currentFrameTime = 0;
 
-        int faceDir = 1;
+        int faceDir = Platformer.Rand.Next(2);
 
         // Collisions Bounds
         Rectangle collRect;
@@ -47,6 +47,14 @@ namespace Platformer
         public void Update(GameTime gameTime, Map gameMap)
         {
 
+        }
+
+        public void MoveHorizontal(int dir)
+        {
+            // Accelerate in our movement direction
+            Speed.X += (ACCELERATION * (float)dir);
+            // Set facing direction
+            faceDir = dir;
         }
 
         public void Draw(SpriteBatch sb)
