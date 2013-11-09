@@ -28,17 +28,20 @@ namespace GameStateManagement
             : base("Main Menu")
         {
             // Create our menu entries.
-            MenuEntry playGameMenuEntry = new MenuEntry("Play Game");
+            MenuEntry playGameMenuEntry = new MenuEntry("New Game");
+            MenuEntry loadGameMenuEntry = new MenuEntry("Load Game");
             MenuEntry optionsMenuEntry = new MenuEntry("Options");
             MenuEntry exitMenuEntry = new MenuEntry("Exit");
 
             // Hook up menu event handlers.
             playGameMenuEntry.Selected += PlayGameMenuEntrySelected;
+            loadGameMenuEntry.Selected += LoadGameMenuEntrySelected;
             optionsMenuEntry.Selected += OptionsMenuEntrySelected;
             exitMenuEntry.Selected += OnCancel;
 
             // Add entries to the menu.
             MenuEntries.Add(playGameMenuEntry);
+            MenuEntries.Add(loadGameMenuEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
         }
@@ -55,7 +58,13 @@ namespace GameStateManagement
         void PlayGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
             LoadingScreen.Load(ScreenManager, true, e.PlayerIndex,
-                               new GameplayScreen());
+                               new GameplayScreen(false));
+        }
+
+        void LoadGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            LoadingScreen.Load(ScreenManager, true, e.PlayerIndex,
+                               new GameplayScreen(true));
         }
 
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace Platformer
 {
-    class Hero
+    public class Hero
     {
         // Animation constants
         public const int FRAME_WIDTH = 64;
@@ -29,10 +30,14 @@ namespace Platformer
         public Vector2 Speed;
 
         // Animation locals
+        [JsonProperty]
         int currentFrame = 0;
+        [JsonProperty]
         double currentFrameTime = 0;
 
+        [JsonProperty]
         bool isJumping = false;
+        [JsonProperty]
         int faceDir = 1;
 
         // Collisions Bounds

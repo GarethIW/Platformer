@@ -38,6 +38,8 @@ namespace GameStateManagement
 
         float pauseAlpha;
 
+        bool loadingGame = false;
+
         #endregion
 
         #region Initialization
@@ -46,8 +48,10 @@ namespace GameStateManagement
         /// <summary>
         /// Constructor.
         /// </summary>
-        public GameplayScreen()
+        public GameplayScreen(bool loading)
         {
+            loadingGame = loading;
+
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
         }
@@ -63,13 +67,28 @@ namespace GameStateManagement
 
             gameFont = content.Load<SpriteFont>("gamefont");
 
-            enemyManager = new EnemyManager();
-            enemyManager.LoadContent(content);
 
-            gameMap = Map.Load("map.txt", content);
+            if (loadingGame)
+            {
+                enemyManager = new EnemyManager();
+                enemyManager.LoadContent(content);
 
-            gameHero = new Hero(gameMap.PlayerSpawn);
-            gameHero.LoadContent(content);
+                gameMap = Map.Load("map.txt", content);
+
+                LoadSaveManager.LoadGame(ref gameHero);
+
+                gameHero.LoadContent(content);
+            }
+            else
+            {
+                enemyManager = new EnemyManager();
+                enemyManager.LoadContent(content);
+
+                gameMap = Map.Load("map.txt", content);
+
+                gameHero = new Hero(gameMap.PlayerSpawn);
+                gameHero.LoadContent(content);
+            }
 
             ScreenManager.Game.ResetElapsedTime();
         }
@@ -98,6 +117,12 @@ namespace GameStateManagement
                                                        bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, false);
+
+            if (LoadSaveManager.IsSaving)
+            {
+                bool saveOK = LoadSaveManager.SaveGame(gameHero);
+                if(!saveOK) ScreenManager.AddScreen(new MessageBoxScreen("Save Failed!", false), null);
+            }
 
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)

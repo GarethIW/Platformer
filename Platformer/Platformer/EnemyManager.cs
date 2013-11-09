@@ -17,7 +17,7 @@ namespace Platformer
         public List<Enemy> Enemies = new List<Enemy>();
 
         // Initialise a dictionary to hold spritesheets by name
-        Dictionary<string, Texture2D> spriteSheets = new Dictionary<string, Texture2D>();
+        public Dictionary<string, Texture2D> spriteSheets = new Dictionary<string, Texture2D>();
 
         public EnemyManager()
         {
@@ -53,7 +53,7 @@ namespace Platformer
             Vector2 spawnPos = new Vector2((x * Map.TILE_WIDTH) + (Enemy.FRAME_WIDTH / 2), (y * Map.TILE_HEIGHT) + Enemy.FRAME_HEIGHT);
 
             // Make a new enemy, using the soldier spritesheet
-            Enemy newEnemy = new Enemy(spriteSheets["soldier"], spawnPos);
+            Enemy newEnemy = new Enemy(spawnPos);
 
             // Add the enemy to the pool
             Enemies.Add(newEnemy);

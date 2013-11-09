@@ -9,6 +9,7 @@
 
 #region Using Statements
 using Microsoft.Xna.Framework;
+using Platformer;
 #endregion
 
 namespace GameStateManagement
@@ -29,14 +30,21 @@ namespace GameStateManagement
             : base("Paused")
         {
             // Create our menu entries.
+            MenuEntry saveGameMenuEntry = new MenuEntry("Save Game"); 
+            MenuEntry loadGameMenuEntry = new MenuEntry("Load Game");
             MenuEntry resumeGameMenuEntry = new MenuEntry("Resume Game");
             MenuEntry quitGameMenuEntry = new MenuEntry("Quit Game");
             
             // Hook up menu event handlers.
+            saveGameMenuEntry.Selected += SaveGameMenuEntrySelected;
+            loadGameMenuEntry.Selected += LoadGameMenuEntrySelected;
+
             resumeGameMenuEntry.Selected += OnCancel;
             quitGameMenuEntry.Selected += QuitGameMenuEntrySelected;
 
             // Add entries to the menu.
+            MenuEntries.Add(saveGameMenuEntry);
+            MenuEntries.Add(loadGameMenuEntry);
             MenuEntries.Add(resumeGameMenuEntry);
             MenuEntries.Add(quitGameMenuEntry);
         }
@@ -61,6 +69,17 @@ namespace GameStateManagement
             ScreenManager.AddScreen(confirmQuitMessageBox, ControllingPlayer);
         }
 
+        void SaveGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            LoadSaveManager.IsSaving = true;
+            OnCancel(sender, e);
+        }
+
+        void LoadGameMenuEntrySelected(object sender, PlayerIndexEventArgs e)
+        {
+            LoadingScreen.Load(ScreenManager, false, ControllingPlayer, new GameplayScreen(true));
+                                                           
+        }
 
         /// <summary>
         /// Event handler for when the user selects ok on the "are you sure

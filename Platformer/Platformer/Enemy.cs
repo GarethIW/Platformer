@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,22 +27,20 @@ namespace Platformer
         public Vector2 Speed;
 
         // Animation locals
+        [JsonProperty]
         int currentFrame = 0;
+        [JsonProperty]
         double currentFrameTime = 0;
 
+        [JsonProperty]
         int faceDir = 1;
 
         // Collisions Bounds
         Rectangle collRect;
 
-        // Spritesheet
-        Texture2D spriteSheet;
-
-        public Enemy(Texture2D sheet, Vector2 pos)
+        public Enemy(Vector2 pos)
         {
             Position = pos;
-
-            spriteSheet = sheet;
 
             faceDir = Platformer.Rand.Next(2);
             if (faceDir == 0) faceDir = -1;
@@ -116,7 +115,7 @@ namespace Platformer
 
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(spriteSheet,
+            sb.Draw(EnemyManager.Instance.spriteSheets["soldier"],
                     Position,
                     new Rectangle(FRAME_WIDTH * currentFrame, 0, FRAME_WIDTH, FRAME_HEIGHT),
                     Color.White,
@@ -205,5 +204,7 @@ namespace Platformer
                 }
             }
         }
+
+        
     }
 }
