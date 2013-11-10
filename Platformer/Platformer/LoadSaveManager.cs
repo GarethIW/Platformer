@@ -19,7 +19,7 @@ namespace Platformer
                 string heroJson = JsonConvert.SerializeObject(gameHero, Formatting.Indented);
                 string enemyJson = JsonConvert.SerializeObject(EnemyManager.Instance.Enemies, Formatting.Indented);
 
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SavedGames", "Platformer"));
+                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Saved Games", "Platformer"));
                 File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Saved Games", "Platformer", "hero.txt"), heroJson);
                 File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Saved Games", "Platformer", "enemies.txt"), enemyJson);
 
