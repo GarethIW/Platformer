@@ -19,9 +19,9 @@ namespace Platformer
                 string heroJson = JsonConvert.SerializeObject(gameHero, Formatting.Indented);
                 string enemyJson = JsonConvert.SerializeObject(EnemyManager.Instance.Enemies, Formatting.Indented);
 
-                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SavedGames\\Platformer"));
-                File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SavedGames\\Platformer\\hero.txt"), heroJson);
-                File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SavedGames\\Platformer\\enemies.txt"), enemyJson);
+                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SavedGames", "Platformer"));
+                File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Saved Games", "Platformer", "hero.txt"), heroJson);
+                File.WriteAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Saved Games", "Platformer", "enemies.txt"), enemyJson);
 
                 return true;
             }
@@ -35,8 +35,8 @@ namespace Platformer
         {
             try
             {
-                string heroJson = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SavedGames\\Platformer\\hero.txt"));
-                string enemyJson = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "SavedGames\\Platformer\\enemies.txt"));
+                string heroJson = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Saved Games", "Platformer", "hero.txt"));
+                string enemyJson = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "Saved Games", "Platformer", "enemies.txt"));
 
                 gameHero = JsonConvert.DeserializeObject<Hero>(heroJson);
                 EnemyManager.Instance.Enemies = JsonConvert.DeserializeObject<List<Enemy>>(enemyJson);
