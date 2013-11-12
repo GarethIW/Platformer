@@ -150,11 +150,12 @@ namespace Platformer
             }
         }
 
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, Camera gameCamera)
         {
             sb.Begin();
+            /// CAMERA STUFF: subtract the camera position from the tile draw position
             sb.Draw(spriteSheet,
-                    Position,
+                    Position - gameCamera.Position,
                     new Rectangle(FRAME_WIDTH * currentFrame,0,FRAME_WIDTH, FRAME_HEIGHT),
                     Color.White,
                     0f,

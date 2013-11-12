@@ -113,10 +113,11 @@ namespace Platformer
             faceDir = dir;
         }
 
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, Camera gameCamera)
         {
+            /// CAMERA STUFF: subtract the camera position from the enemy's draw position
             sb.Draw(EnemyManager.Instance.spriteSheets["soldier"],
-                    Position,
+                    Position - gameCamera.Position,
                     new Rectangle(FRAME_WIDTH * currentFrame, 0, FRAME_WIDTH, FRAME_HEIGHT),
                     Color.White,
                     0f,

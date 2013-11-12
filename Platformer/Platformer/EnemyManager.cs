@@ -38,11 +38,11 @@ namespace Platformer
             foreach (Enemy e in Enemies) e.Update(gameTime, gameMap);
         }
 
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, Camera gameCamera)
         {
             // Start/end drawing at Manager level so all enemies are drawn in one batch
             sb.Begin();
-            foreach (Enemy e in Enemies) e.Draw(sb);
+            foreach (Enemy e in Enemies) e.Draw(sb, gameCamera);
             sb.End();
         }
 

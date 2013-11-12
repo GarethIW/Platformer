@@ -34,6 +34,8 @@ namespace GameStateManagement
         Map gameMap;
         Hero gameHero;
 
+        Camera gameCamera;
+
         EnemyManager enemyManager;
 
         float pauseAlpha;
@@ -67,7 +69,6 @@ namespace GameStateManagement
 
             gameFont = content.Load<SpriteFont>("gamefont");
 
-
             if (loadingGame)
             {
                 enemyManager = new EnemyManager();
@@ -89,6 +90,10 @@ namespace GameStateManagement
                 gameHero = new Hero(gameMap.PlayerSpawn);
                 gameHero.LoadContent(content);
             }
+
+
+            /// CAMERA STUFF: instantiate the camera, passing in the game's viewport (our visible draw surface)
+            gameCamera = new Camera(ScreenManager.Game.GraphicsDevice.Viewport);
 
             ScreenManager.Game.ResetElapsedTime();
         }
@@ -134,6 +139,10 @@ namespace GameStateManagement
             {
                 gameHero.Update(gameTime, gameMap);
                 enemyManager.Update(gameTime, gameMap);
+
+                /// CAMERA STUFF: update the camera
+                gameCamera.Update(gameTime, gameHero); 
+
             }
         }
 
@@ -185,11 +194,12 @@ namespace GameStateManagement
             // Our player and enemy are both actually just text strings.
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
-            gameMap.Draw(spriteBatch);
+            /// CAMERA STUFF: added camera paramter to all our draw calls
+            gameMap.Draw(spriteBatch, gameCamera);
 
-            gameHero.Draw(spriteBatch);
+            gameHero.Draw(spriteBatch, gameCamera);
 
-            enemyManager.Draw(spriteBatch);
+            enemyManager.Draw(spriteBatch, gameCamera);
 
             // If the game is transitioning on or off, fade it out to black.
             if (TransitionPosition > 0 || pauseAlpha > 0)
