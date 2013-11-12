@@ -11,8 +11,8 @@ namespace Platformer
 {
     public class Map
     {
-        public const int MAP_WIDTH = 20;
-        public const int MAP_HEIGHT = 11;
+        public const int MAP_WIDTH = 40;
+        public const int MAP_HEIGHT = 20;
 
         public const int TILE_WIDTH = 64;
         public const int TILE_HEIGHT = 64;
@@ -53,17 +53,35 @@ namespace Platformer
             }
         }
 
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, Camera gameCamera)
         {
-            sb.Begin();
+            /// CAMERA STUFF: A lot has changed here!
+            
+            // Need to use SamplerState.PointClamp to avoid tile artifacting with floating point positioning. Try setting it to null to see the difference!
+            sb.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null);
             for (int y = 0; y < MAP_HEIGHT; y++)
             {
                 for (int x = 0; x < MAP_WIDTH; x++)
                 {
-                    sb.Draw(tilesTex,
-                            new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT),
-                            new Rectangle(Tiles[x, y] * TILE_WIDTH, 0, TILE_WIDTH, TILE_HEIGHT),
-                            Color.White);
+                    // We don't want to draw a blank tile (saves triangles!)
+                    if (Tiles[x, y] == 0) continue;
+
+                    // First calculate the position we want to draw the tile at
+                    Vector2 tilePos = new Vector2(x * TILE_WIDTH, y * TILE_HEIGHT);
+                    
+                    // Next, check if that position is inside the camera's visible area
+                    // We subtract from left/top to allow for tiles to be drawn helf-off the screen
+                    if (tilePos.X >= gameCamera.VisibleArea.Left - Map.TILE_WIDTH &&
+                       tilePos.Y >= gameCamera.VisibleArea.Top - Map.TILE_HEIGHT &&
+                       tilePos.X <= gameCamera.VisibleArea.Right &&
+                       tilePos.Y <= gameCamera.VisibleArea.Bottom)
+                    {
+                        sb.Draw(tilesTex,
+                                // Subtract camera position from draw position
+                                tilePos - gameCamera.Position,
+                                new Rectangle(Tiles[x, y] * TILE_WIDTH, 0, TILE_WIDTH, TILE_HEIGHT),
+                                Color.White);
+                    }
                 }
             }
             sb.End();

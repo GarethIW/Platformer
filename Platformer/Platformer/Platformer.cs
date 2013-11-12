@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using GameStateManagement;
 
 namespace Platformer
 {
@@ -16,18 +17,24 @@ namespace Platformer
     /// </summary>
     public class Platformer : Microsoft.Xna.Framework.Game
     {
+        public static Random Rand = new Random();
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Map gameMap;
-        Hero gameHero;
+        //Map gameMap;
+        //Hero gameHero;
 
-        EnemyManager enemyManager;
+        //EnemyManager enemyManager;
+
+        ScreenManager screenManager;
 
         public Platformer()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            screenManager = new ScreenManager(this);
         }
 
         /// <summary>
@@ -42,6 +49,9 @@ namespace Platformer
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
+
+            screenManager.Initialize();
+
             base.Initialize();
         }
 
@@ -54,13 +64,18 @@ namespace Platformer
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            enemyManager = new EnemyManager();
-            enemyManager.LoadContent(Content);
+            //enemyManager = new EnemyManager();
+            //enemyManager.LoadContent(Content);
 
-            gameMap = Map.Load("map.txt", Content);
+            //gameMap = Map.Load("map.txt", Content);
 
-            gameHero = new Hero(gameMap.PlayerSpawn);
-            gameHero.LoadContent(Content);
+            //gameHero = new Hero(gameMap.PlayerSpawn);
+            //gameHero.LoadContent(Content);
+
+            screenManager.LoadContent();
+
+            screenManager.AddScreen(new BackgroundScreen(), null);
+            screenManager.AddScreen(new MainMenuScreen(), null);
 
         }
 
@@ -80,18 +95,20 @@ namespace Platformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            KeyboardState ks = Keyboard.GetState();
+            //KeyboardState ks = Keyboard.GetState();
 
-            // Allows the game to exit
-            if (ks.IsKeyDown(Keys.Escape))
-                this.Exit();
+            //// Allows the game to exit
+            //if (ks.IsKeyDown(Keys.Escape))
+            //    this.Exit();
 
-            if (ks.IsKeyDown(Keys.Left)) gameHero.MoveHorizontal(-1);
-            if (ks.IsKeyDown(Keys.Right)) gameHero.MoveHorizontal(1);
-            if (ks.IsKeyDown(Keys.Up)) gameHero.Jump();
+            //if (ks.IsKeyDown(Keys.Left)) gameHero.MoveHorizontal(-1);
+            //if (ks.IsKeyDown(Keys.Right)) gameHero.MoveHorizontal(1);
+            //if (ks.IsKeyDown(Keys.Up)) gameHero.Jump();
 
-            gameHero.Update(gameTime, gameMap);
-            enemyManager.Update(gameTime, gameMap);
+            //gameHero.Update(gameTime, gameMap);
+            //enemyManager.Update(gameTime, gameMap);
+
+            screenManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -102,14 +119,16 @@ namespace Platformer
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
-            gameMap.Draw(spriteBatch);
+            //gameMap.Draw(spriteBatch);
 
-            gameHero.Draw(spriteBatch);
+            //gameHero.Draw(spriteBatch);
 
-            enemyManager.Draw(spriteBatch);
+            //enemyManager.Draw(spriteBatch);
+
+            screenManager.Draw(gameTime);
 
             base.Draw(gameTime);
         }
